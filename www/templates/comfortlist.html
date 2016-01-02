@@ -1,0 +1,10 @@
+<ion-view view-title="Comfort">
+  <ion-content class="has-header">
+    <button class="button button-block button-small"
+            ng-repeat="n in ngButtonText track by $index"
+            data-ng-class="ngButtonMarked[$index]? 'button-calm': 'button-stable'"
+            ng-click="ngButtonClick($index)">
+      {{n}}
+    </button>
+  </ion-content>
+</ion-view>
