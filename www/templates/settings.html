@@ -1,12 +1,6 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
+<ion-view view-title="Settings">
   <ion-content>
-    <form ng-submit="doLogin()">
+    <form ng-submit="saveSettings()">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Username</span>
@@ -25,7 +19,7 @@
           <input type="text" ng-model="loginData.oidComfort">
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
+          <button class="button button-block button-positive" type="submit">Save settings</button>
         </label>
       </div>
     </form>
@@ -33,13 +27,5 @@
       Version: {{settingData.majorReleaseNo}}.{{settingData.minorReleaseNo}}.{{settingData.patchLevelNo}}
     <br/>
     Das Kennwort wird unverschlüsselt gespeichert.
-    <br/>
-    <br/>
-        Der Quellcode dieses Programms finden sie hier:<br/>
-        <a href="https://github.com/ahackl/HPcomfort">https://github.com/ahackl/HPcomfort</a><br/>
-    <br/>
-    <br/>
-        Anregunegn und Fehler können hier gemeldet werden:<br/>
-        <a href="https://github.com/ahackl/HPcomfort/issues">https://github.com/ahackl/HPcomfort/issues</a><br/>
   </ion-content>
-</ion-modal-view>
+</ion-view>

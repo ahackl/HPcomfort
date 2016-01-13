@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl',['$scope', '$ionicModal', '$http',
-  function($scope, $ionicModal, $http) {
+.controller('AppCtrl',['$scope', '$http','ionicToast',
+  function($scope, $http, ionicToast) {
 
       $scope.settingData = {
           majorReleaseNo : 1,
@@ -206,26 +206,9 @@ angular.module('starter.controllers', [])
     setTempValue(newTempValue);
   };
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    // console.log('Doing login', $scope.loginData);
+  // Save Settings
+  $scope.saveSettings = function() {
 
     // save the new setting to the database
     localDb.put($scope.loginData).then(function (result) {
@@ -233,15 +216,13 @@ angular.module('starter.controllers', [])
       // write the new revision number into the global setting object
       $scope.loginData._rev = result.rev;
       getTempValue();
+      ionicToast.show('Settings saved', 'bottom', false, 2000);
 
     }).catch(function (error) {
       // console.error('Settings not saved: ' + JSON.stringify(error));
-      // console.error('Settings not saved: ' + JSON.stringify(error));
     });
 
-    $scope.closeLogin();
 
   };
 }]);
-
 
