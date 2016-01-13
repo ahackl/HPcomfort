@@ -6,7 +6,9 @@ Dieses Programm nutzt die SOAP Schnittstelle des web2com Interfaces um die Behag
 ## Usage
 
 Install the [ionic] framework and copy the files to the "www" directory
+
 or
+
 Install the [android] version.
 
 
