@@ -34,7 +34,10 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    resolve:{
+      'settingData':function(settingHP){
+        return settingHP.promise;
+      }}
   })
   .state('app.help', {
     url: '/help',
@@ -48,7 +51,8 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
     url: '/settings',
     views: {
       'menuContent': {
-        templateUrl: 'templates/settings.html'
+        templateUrl: 'templates/settings.html',
+        controller: 'SettingsCtrl'
       }
     }
   })
@@ -56,9 +60,19 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
     url: '/comfortlist',
     views: {
       'menuContent': {
-        templateUrl: 'templates/comfortlist.html'
+        templateUrl: 'templates/comfortlist.html',
+        controller: 'AppCtrl'
       }
     }
+  })
+  .state('app.parameterlist', {
+    url: '/parameterlist',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/parameterlist.html',
+          controller: 'ParameterCtrl'
+          }
+      }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/comfortlist');
