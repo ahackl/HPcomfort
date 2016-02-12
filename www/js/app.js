@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
+// 'starter.controllers' is found in controllers_comfort.js
 angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
 
 .run(function($ionicPlatform) {
@@ -33,11 +33,8 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
     .state('app', {
     url: '/app',
     abstract: true,
-    templateUrl: 'templates/menu.html',
-    resolve:{
-      'settingData':function(settingHP){
-        return settingHP.promise;
-      }}
+    templateUrl: 'templates/menu.html'
+    //resolve:{ 'settingData' : function(settingHP){return settingHP.promise;} }
   })
   .state('app.help', {
     url: '/help',
@@ -61,19 +58,24 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
     views: {
       'menuContent': {
         templateUrl: 'templates/comfortlist.html',
-        controller: 'AppCtrl'
+        controller: 'ComfortCtrl'
       }
     }
   })
-  .state('app.parameterlist', {
-    url: '/parameterlist',
+  .state('app.statuslist', {
+    url: '/statuslist',
       views: {
         'menuContent': {
-          templateUrl: 'templates/parameterlist.html',
-          controller: 'ParameterCtrl'
+          templateUrl: 'templates/statuslist.html',
+          controller: 'StatusCtrl'
           }
       }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/comfortlist');
 });
+
+
+var _service = angular.module('starter.services', []);
+
+var _control = angular.module('starter.controllers', ['starter.services']);

@@ -1,0 +1,28 @@
+<ion-view view-title="Status">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon ion-plus" ng-click="openDialogNew()"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <ion-refresher
+                spinner="none"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list option-buttons="itemButtons" can-swipe="true" delegate-handle="status-list">
+            <ion-item ng-repeat="item in list track by $index" item="item">
+                    <div class="row">
+                        <div class="col col-75">{{ item.description }}</div>
+                        <div ng-if="item.lastAction === 'new'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
+                        <div ng-if="item.lastAction === 'change'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
+                        <div ng-if="item.lastAction === 'read'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
+                        <div ng-if="item.lastAction === 'updated'" class="col" style="color:#000000">{{ item.lastValue }}</div>
+                    </div>
+                <ion-option-button class="button-assertive" ng-click="onItemDelete(item)">
+                    delete
+                </ion-option-button>
+                <ion-option-button class="button-calm" ng-click="onItemEdit(item)">
+                    edit
+                </ion-option-button>
+           </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,10 +1,20 @@
 <ion-view view-title="Comfort">
   <ion-content class="has-header">
-    <button class="button button-block button-small"
-            ng-repeat="n in ngButtonText track by $index"
-            data-ng-class="ngButtonMarked[$index]? 'button-calm': 'button-stable'"
-            ng-click="ngButtonClick($index)">
-      {{n}}
-    </button>
+    <ion-refresher
+            spinner="none"
+            on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col col-50">
+        <button class="button button-block button-small"
+                ng-repeat="n in ngButtonText track by $index"
+                data-ng-class="ngButtonMarked[$index]? 'button-calm': 'button-stable'"
+                ng-click="ngButtonClick($index)">
+          {{n}}
+        </button>
+      </div>
+      <div class="col"></div>
+    </div>
   </ion-content>
 </ion-view>

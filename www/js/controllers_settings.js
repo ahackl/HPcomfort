@@ -1,14 +1,18 @@
 /**
  * Created by alexander on 31.01.16.
  */
-_control.controller('SettingsCtrl',['$scope','ionicToast','soapHP','settingHP','$rootScope',
-    function($scope, ionicToast, soapHP, settingHP,$rootScope) {
+_control.controller('SettingsCtrl',['$scope','ionicToast','soapHP','settingsHP','$rootScope',
+    function($scope, ionicToast, soapHP, settingsHP,$rootScope) {
 
-        $scope.loginData = settingHP.getSettings();
+        $scope.hideToast = function(){
+            ionicToast.hide();
+        };
+
+        $scope.loginData = settingsHP.getSettings();
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             if (toState.views.menuContent.controller === 'SettingsCtrl') {
-                $scope.loginData = settingHP.getSettings();
+                $scope.loginData = settingsHP.getSettings();
             }
         });
 
@@ -20,11 +24,10 @@ _control.controller('SettingsCtrl',['$scope','ionicToast','soapHP','settingHP','
 
         // Save Settings
         $scope.saveSettings = function() {
-            var promiseSave = settingHP.setSettings($scope.loginData);
+            var promiseSave = settingsHP.setSettings($scope.loginData);
             promiseSave.then(
                 function(response) {
-                    console.log(JSON.stringify(response));
-                    $scope.loginData = settingHP.getSettings();
+                    $scope.loginData = settingsHP.getSettings();
                     ionicToast.show('Settings saved', 'bottom', false, 2000);
                 });
         };

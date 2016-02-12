@@ -1,10 +1,8 @@
 /**
- * Created by alexander on 30.01.16.
+ * Created by alexander on 07.02.16.
  */
-var _service = angular.module('starter.services', []);
-
-_service.factory('soapHP', ['$http', 'settingHP',
-    function ($http, settingHP) {
+_service.factory('soapHP', ['$http', 'settingsHP',
+    function ($http, settingsHP) {
         'use strict';
 
         var service = {
@@ -71,7 +69,7 @@ _service.factory('soapHP', ['$http', 'settingHP',
                 data: payload
             };
 
-           return $http(req);
+            return $http(req);
         }
 
         function sendSOAPwithValue($loginData, $oid, $value){
@@ -121,58 +119,15 @@ _service.factory('soapHP', ['$http', 'settingHP',
         }
 
         function getValue(answer) {
-            var Xdom = parseXml(answer.data);
-            return Xdom.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+            try {
+                var Xdom = parseXml(answer.data);
+                return Xdom.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+            }
+            catch (e) {
+                return '--';
+            }
         }
 
         return service;
     }]);
 
-_service.service('settingHP', function() {
-
-    var SettingsDB = {
-        _id: 'settings',
-        _rev: '',
-        username: 'username',
-        password: 'password',
-        server: 'server',
-        oidComfort: '/1/2/4/3/58/0'
-    };
-
-    var localDb = new PouchDB('WPDB');
-
-    var promise = localDb.get('settings');
-    promise.then(
-        function(response){
-            //console.log(JSON.stringify(response));
-            SettingsDB = response;
-        },
-        function(error) {
-            //console.log(JSON.stringify(error));
-        }
-    );
-
-    getSettings = function () {
-        return SettingsDB;
-    };
-
-    setSettings =  function (newSettings) {
-        SettingsDB = newSettings;
-        var promiseSave = localDb.put(SettingsDB);
-        promiseSave.then(
-            function (response) {
-                //console.log(JSON.stringify(response));
-                SettingsDB._rev = response.rev;
-            },
-            function (error) {
-                //console.log(JSON.stringify(error));
-            }
-        );
-        return promiseSave;
-    };
-    return {
-        promise:promise,
-        getSettings: getSettings,
-        setSettings: setSettings
-    };
-});
