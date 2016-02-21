@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers_comfort.js
-angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
+angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'ionic-toast', 'ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -20,16 +20,15 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
       StatusBar.styleDefault();
     }
 
-
-
   });
-
 
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+.config(function($stateProvider, $urlRouterProvider, $localStorageProvider) {
 
+  $localStorageProvider.setKeyPrefix('HPsettings');
+
+  $stateProvider
     .state('app', {
     url: '/app',
     abstract: true,
@@ -72,7 +71,25 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'ionic-toast'])
       }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/comfortlist');
+
+  var startState = $localStorageProvider.get('startState');
+
+  var listOfAllowedStates = ['/app/help', '/app/settings', '/app/statuslist','/app/comfortlist'];
+
+  var isInList = false;
+  listOfAllowedStates.forEach(function(entry) {
+    if (startState === entry) {
+      isInList = true;
+    }
+  });
+
+  if (isInList === false) {
+    startState = '/app/settings';
+    $localStorageProvider.set('startState', startState);
+  }
+
+  $urlRouterProvider.otherwise(startState);
+
 });
 
 

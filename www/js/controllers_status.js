@@ -7,6 +7,7 @@ _control.controller('StatusCtrl',['$scope','$http','ionicToast','soapHP',
              $ionicModal, queueHP,$ionicListDelegate) {
 
         $scope.loginData = settingsHP.getSettings();
+
         $scope.list = $scope.loginData.statuslist;
 
         //angular.forEach(val,

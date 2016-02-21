@@ -18,14 +18,25 @@
           <span class="input-label">OID for Comfort</span>
           <input type="text" ng-model="loginData.oidComfort">
         </label>
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Startpage
+        </div>
+        <select ng-model="loginData.myStartPage" ng-options="onePage.name for onePage in startPage"></select>
+      </label>
+
         <label class="item">
           <button class="button button-block button-positive" type="submit">Save settings</button>
         </label>
+
       </div>
+
     </form>
     <br/>
       Version: {{settingData.majorReleaseNo}}.{{settingData.minorReleaseNo}}.{{settingData.patchLevelNo}}
     <br/>
     Das Kennwort wird unverschlüsselt gespeichert.
+
   </ion-content>
 </ion-view>
