@@ -33,8 +33,8 @@ _control.controller('SettingsCtrl',['$scope','ionicToast','soapHP','settingsHP',
 
         $scope.settingData = {
             majorReleaseNo : 1,
-            minorReleaseNo : 1,
-            patchLevelNo : 1
+            minorReleaseNo : 2,
+            patchLevelNo : 0
         };
 
         // Save Settings

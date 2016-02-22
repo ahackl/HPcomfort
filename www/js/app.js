@@ -84,7 +84,7 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
   });
 
   if (isInList === false) {
-    startState = '/app/settings';
+    startState = '/app/comfortlist';
     $localStorageProvider.set('startState', startState);
   }
 
