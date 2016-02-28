@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers_comfort.js
 angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'ionic-toast', 'ngStorage'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +19,20 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+
+    var $storage = $localStorage.$default({
+      username: 'username',
+      password: 'password',
+      server: 'server',
+      oidComfort: '/1/2/4/3/58/0',
+      startState: {name:'settings', state:'/app/settings'},
+      allowedStates : [ {name:'comfort', state:'/app/comfortlist'},
+                        {name:'status', state:'/app/statuslist'},
+                        {name:'help', state:'/app/help'},
+                        {name:'settings', state:'/app/settings'}],
+      statuslist: []
+    });
 
   });
 
@@ -73,22 +87,22 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
   // if none of the above states are matched, use this as the fallback
 
   var startState = $localStorageProvider.get('startState');
-
-  var listOfAllowedStates = ['/app/help', '/app/settings', '/app/statuslist','/app/comfortlist'];
+  var allowedStates = $localStorageProvider.get('allowedStates');
 
   var isInList = false;
-  listOfAllowedStates.forEach(function(entry) {
-    if (startState === entry) {
-      isInList = true;
-    }
-  });
-
+  if (allowedStates != null) {
+    allowedStates.forEach(function(entry) {
+      if (startState.state === entry.state) {
+        isInList = true;
+      }
+    });
+  }
   if (isInList === false) {
-    startState = '/app/comfortlist';
+    startState = {name:'settings', state:'/app/settings'};
     $localStorageProvider.set('startState', startState);
   }
 
-  $urlRouterProvider.otherwise(startState);
+  $urlRouterProvider.otherwise(startState.state);
 
 });
 

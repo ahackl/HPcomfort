@@ -1,19 +1,8 @@
 _control.controller('ComfortCtrl',
-    ['$scope', 'ionicToast', 'soapHP', 'settingsHP', '$rootScope', '$timeout',
-        function ($scope, ionicToast, soapHP, settingsHP, $rootScope, $timeout) {
+    ['$scope', 'soapHP', '$localStorage', '$rootScope',
+        function ($scope, soapHP, $localStorage, $rootScope) {
 
-            // wait fetching the data, until the setting are loaded.
-            $scope.$watch(
-                function () {return settingsHP.getRevision();},
-                function (revisionNo) {
-                    // console.log(revisionNo);
-                    if (!angular.equals(revisionNo, '')) {
-                        getTempValue();
-                    }
-                    $timeout(function () {
-                        return ''
-                    });
-                }, true);
+            $scope.$storage = $localStorage;
 
             // reload data if the view is resumed from background
             document.addEventListener("resume", function () {
@@ -33,7 +22,6 @@ _control.controller('ComfortCtrl',
                 $scope.$broadcast('scroll.refreshComplete');
             };
 
-
             // remember the last temp and the number of the button.
             $scope.wp = {
                 temp: 0.0,
@@ -48,10 +36,12 @@ _control.controller('ComfortCtrl',
                 $scope.ngButtonText.push(3.0 - 0.5 * i);
             }
 
+            // get temperature at startup
+            getTempValue();
 
             // send the new temperature value
             function setTempValue(newTempValue) {
-                var promiseSave = soapHP.sendSOAPwithValue(settingsHP.getSettings(), settingsHP.getOidComfort(), newTempValue);
+                var promiseSave = soapHP.sendSOAPwithValue($scope.$storage, $scope.$storage.oidComfort, newTempValue);
                 promiseSave.then(
                     function (answer) {
                         $scope.LogText = answer.data;
@@ -64,7 +54,8 @@ _control.controller('ComfortCtrl',
 
             // read the temperature value
             function getTempValue() {
-                var promise = soapHP.sendSOAP(settingsHP.getSettings(), settingsHP.getOidComfort());
+
+                var promise = soapHP.sendSOAP($scope.$storage, $scope.$storage.oidComfort);
                 promise.then(
                     function (answer) {
                         // $scope.wp.temp =  soapHP.getValue(answer);

@@ -4,37 +4,37 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
+          <input type="text" ng-model="$storage.username">
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="text" ng-model="loginData.password">
+          <input type="text" ng-model="$storage.password">
         </label>
         <label class="item item-input">
           <span class="input-label">Server</span>
-          <input type="text" ng-model="loginData.server">
+          <input type="text" ng-model="$storage.server">
         </label>
         <label class="item item-input">
           <span class="input-label">OID for Comfort</span>
-          <input type="text" ng-model="loginData.oidComfort">
+          <input type="text" ng-model="$storage.oidComfort">
         </label>
 
       <label class="item item-input item-select">
         <div class="input-label">
           Startpage
         </div>
-        <select ng-model="loginData.myStartPage" ng-options="onePage.name for onePage in startPage"></select>
+        <select ng-model="$storage.startState" ng-options="onePage.name for onePage in $storage.allowedStates track by onePage.state"></select>
       </label>
-
+<!--
         <label class="item">
           <button class="button button-block button-positive" type="submit">Save settings</button>
         </label>
-
+-->
       </div>
 
     </form>
     <br/>
-      Version: {{settingData.majorReleaseNo}}.{{settingData.minorReleaseNo}}.{{settingData.patchLevelNo}}
+      Version: {{appVersion}}
     <br/>
     Das Kennwort wird unverschlüsselt gespeichert.
 

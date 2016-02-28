@@ -1,25 +1,14 @@
 /**
  * Created by alexander on 31.01.16.
  */
-_control.controller('StatusCtrl',['$scope','$http','ionicToast','soapHP',
-    'settingsHP','$rootScope','$ionicModal','queueHP','$ionicListDelegate',
-    function($scope, $http, ionicToast, soapHP, settingsHP, $rootScope,
-             $ionicModal, queueHP,$ionicListDelegate) {
+_control.controller('StatusCtrl',['$scope','$http','soapHP',
+    '$localStorage','$rootScope','$ionicModal','queueHP','$ionicListDelegate',
+    function($scope, $http, soapHP, $localStorage, $rootScope,
+             $ionicModal, queueHP, $ionicListDelegate) {
 
-        $scope.loginData = settingsHP.getSettings();
-
-        $scope.list = $scope.loginData.statuslist;
-
-        //angular.forEach(val,
-        //    function(todo) {
-        //      console.log("Yawn, I guess it's time to:", todo.task);
-        //  });
-
+        $scope.$storage = $localStorage;
 
         resetLastAction();
-        getStatusValue();
-
-
 
         $scope.dialogData = { "description" : "", "soapid" : "" , "lastValue": "--", "lastUpdate": "", "lastAction" : "new"};
 
@@ -61,13 +50,13 @@ _control.controller('StatusCtrl',['$scope','$http','ionicToast','soapHP',
             newItem.lastValue = $scope.dialogData.lastValue;
             newItem.lastAction = $scope.dialogData.lastAction;
             if ( $scope.dialogData.lastAction == 'new') {
-                $scope.loginData.statuslist.push(newItem);
+                $scope.$storage.statuslist.push(newItem);
             }
             if ( $scope.dialogData.lastAction == 'change') {
-                var editIndex = $scope.loginData.statuslist.indexOf($scope.tmpEditItem);
-                $scope.loginData.statuslist[editIndex] = newItem;
+                var editIndex = $scope.$storage.statuslist.indexOf($scope.tmpEditItem);
+                $scope.$storage.statuslist[editIndex] = newItem;
             }
-            settingsHP.setSettings($scope.loginData);
+
             $ionicListDelegate.$getByHandle('status-list').closeOptionButtons();
             $scope.modal.hide();
             getStatusValue();
@@ -79,8 +68,8 @@ _control.controller('StatusCtrl',['$scope','$http','ionicToast','soapHP',
         };
 
         $scope.onItemDelete = function(item) {
-            $scope.loginData.statuslist.splice($scope.loginData.statuslist.indexOf(item), 1);
-            settingsHP.setSettings($scope.loginData);
+            $scope.$storage.statuslist.splice($scope.$storage.statuslist.indexOf(item), 1);
+            // settingsHP.setSettings($scope.$storage);
         };
 
         $scope.onItemEdit = function(item) {
@@ -95,42 +84,42 @@ _control.controller('StatusCtrl',['$scope','$http','ionicToast','soapHP',
 
         $scope.doRefresh = function() {
             resetLastAction();
-            getStatusValue();
             $scope.$broadcast('scroll.refreshComplete');
         };
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             if (toState.views.menuContent.controller === 'StatusCtrl') {
                 resetLastAction();
-                getStatusValue();
             }
         });
 
         // reload data if the view is resumed from background
         document.addEventListener("resume", function () {
             resetLastAction();
-            getStatusValue();
         }, false);
 
+
+
         function resetLastAction() {
-            $scope.loginData.statuslist.forEach(function(entry, index) {
-                $scope.loginData.statuslist[index].lastAction = 'read';
+            $scope.$storage.statuslist.forEach(function(entry, index) {
+                $scope.$storage.statuslist[index].lastAction = 'read';
+                queueHP.asyncTask(entry).then(function (entry) {
+                    var editIndex = $scope.$storage.statuslist.indexOf(entry);
+                    $scope.$storage.statuslist[editIndex] = entry;
+                });
             });
         }
 
 
         function getStatusValue() {
-            $scope.loginData.statuslist.forEach(function(entry) {
+            $scope.$storage.statuslist.forEach(function(entry) {
                 if (entry.lastAction != 'updated') {
                     queueHP.asyncTask(entry).then(function (entry) {
-                        var editIndex = $scope.loginData.statuslist.indexOf(entry);
-                        $scope.loginData.statuslist[editIndex] = entry;
-                        settingsHP.setSettings($scope.loginData);
+                        var editIndex = $scope.$storage.statuslist.indexOf(entry);
+                        $scope.$storage.statuslist[editIndex] = entry;
                     });
 
                 }
             });
-
         }
-
     }]);

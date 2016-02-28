@@ -1,9 +1,10 @@
 /**
  * Created by alexander on 07.02.16.
  */
-_service.factory('soapHP', ['$http', 'settingsHP',
-    function ($http, settingsHP) {
+_service.factory('soapHP', ['$http',
+    function ($http) {
         'use strict';
+
 
         var service = {
             sendSOAP: sendSOAP,
@@ -35,9 +36,9 @@ _service.factory('soapHP', ['$http', 'settingsHP',
         }
 
 
-        function sendSOAP($loginData, $oid) {
+        function sendSOAP($storage, $oid) {
 
-            var authdata = btoa($loginData.username + ':' + $loginData.password);
+            var authdata = btoa($storage.username + ':' + $storage.password);
 
             var payload = '';
             payload += '<?xml version="1.0" encoding="UTF-8"?>';
@@ -61,20 +62,20 @@ _service.factory('soapHP', ['$http', 'settingsHP',
 
             var req = {
                 method: 'POST',
-                url: 'http://'+ $loginData.server +'/ws',
+                url: 'http://'+ $storage.server +'/ws',
                 headers: {
                     'Content-Type': 'text/xml',
                     'Authorization': 'Basic ' + authdata
                 },
                 data: payload
             };
-
+            // console.log(JSON.stringify(req));
             return $http(req);
         }
 
-        function sendSOAPwithValue($loginData, $oid, $value){
+        function sendSOAPwithValue($storage, $oid, $value){
 
-            var authenticationData = btoa($loginData.username + ':' + $loginData.password);
+            var authenticationData = btoa($storage.username + ':' + $storage.password);
 
             var payloadSave = '';
             payloadSave +='<?xml version="1.0" encoding="UTF-8"?>';
@@ -105,7 +106,7 @@ _service.factory('soapHP', ['$http', 'settingsHP',
 
             var req = {
                 method: 'POST',
-                url: 'http://'+ $loginData.server +'/ws',
+                url: 'http://'+ $storage.server +'/ws',
                 headers: {
                     'Content-Type': 'text/xml',
                     'Authorization': 'Basic ' + authenticationData
@@ -120,6 +121,7 @@ _service.factory('soapHP', ['$http', 'settingsHP',
 
         function getValue(answer) {
             try {
+                // console.log(JSON.stringify(answer.data));
                 var Xdom = parseXml(answer.data);
                 return Xdom.getElementsByTagName('value')[0].childNodes[0].nodeValue;
             }
