@@ -18,6 +18,7 @@ _control.controller('ComfortCtrl',
 
             // reload data if the scroll down function is used
             $scope.doRefresh = function () {
+                cosole.log('test');
                 getTempValue();
                 $scope.$broadcast('scroll.refreshComplete');
             };

@@ -6,6 +6,7 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
     function($scope, $http, soapHP, $localStorage, $rootScope,
              $ionicModal, queueHP, $ionicListDelegate) {
 
+
         $scope.$storage = $localStorage;
 
         resetLastAction();
@@ -59,7 +60,7 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
 
             $ionicListDelegate.$getByHandle('status-list').closeOptionButtons();
             $scope.modal.hide();
-            getStatusValue();
+            queueHP.asyncTask(newItem);
         };
 
         $scope.closeModalCancel = function () {
@@ -69,7 +70,6 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
 
         $scope.onItemDelete = function(item) {
             $scope.$storage.statuslist.splice($scope.$storage.statuslist.indexOf(item), 1);
-            // settingsHP.setSettings($scope.$storage);
         };
 
         $scope.onItemEdit = function(item) {
@@ -102,24 +102,14 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
 
         function resetLastAction() {
             $scope.$storage.statuslist.forEach(function(entry, index) {
-                $scope.$storage.statuslist[index].lastAction = 'read';
-                queueHP.asyncTask(entry).then(function (entry) {
-                    var editIndex = $scope.$storage.statuslist.indexOf(entry);
-                    $scope.$storage.statuslist[editIndex] = entry;
-                });
+                queueHP.asyncTask(entry);
             });
         }
 
+        $scope.onReorder = function (fromIndex, toIndex) {
+            var moved = $scope.$storage.statuslist.splice(fromIndex, 1);
+            $scope.$storage.statuslist.splice(toIndex, 0, moved[0]);
+        };
 
-        function getStatusValue() {
-            $scope.$storage.statuslist.forEach(function(entry) {
-                if (entry.lastAction != 'updated') {
-                    queueHP.asyncTask(entry).then(function (entry) {
-                        var editIndex = $scope.$storage.statuslist.indexOf(entry);
-                        $scope.$storage.statuslist[editIndex] = entry;
-                    });
 
-                }
-            });
-        }
     }]);

@@ -113,10 +113,7 @@ _service.factory('soapHP', ['$http',
                 },
                 data: payloadSave
             };
-
             return $http(req);
-
-
         }
 
         function getValue(answer) {

@@ -1,5 +1,5 @@
-_service.factory('queueHP',['$q','$timeout','soapHP','$localStorage',
-    function($q,$timeout,soapHP,$localStorage){
+_service.factory('queueHP',['$q','$timeout','soapHP','$localStorage','$filter',
+    function($q,$timeout,soapHP,$localStorage,$filter){
 
     var $storage = $localStorage;
     var _fact ={};
@@ -10,7 +10,11 @@ _service.factory('queueHP',['$q','$timeout','soapHP','$localStorage',
                 var deferred = $q.defer();
 
                 var promise = soapHP.sendSOAP($storage, value.soapid);
-                // console.log(JSON.stringify(value.soapid));
+                $storage.statuslist.forEach(function(oneItem,index) {
+                    if (oneItem.soapid ===  value.soapid) {
+                        $storage.statuslist[index].lastAction = 'read';
+                    };
+                });
 
                 promise.then(
                     function(answer) {
@@ -19,6 +23,12 @@ _service.factory('queueHP',['$q','$timeout','soapHP','$localStorage',
                         var _intvalue = value;
                         _intvalue.lastValue = soapHP.getValue(answer);
                         _intvalue.lastAction = 'updated';
+                        $storage.lastStatusUpdate = new Date( $filter('date')(new Date(), 'yyyy-MM-dd HH:mm'));
+                        $storage.statuslist.forEach(function(entry,index) {
+                            if (entry.soapid ===  _intvalue.soapid) {
+                                $storage.statuslist[index] = _intvalue;
+                            };
+                        });
                         deferred.resolve(_intvalue);
                     },
                     function(error) {
@@ -26,6 +36,12 @@ _service.factory('queueHP',['$q','$timeout','soapHP','$localStorage',
                         var _intvalue = value;
                         _intvalue.lastValue = '--';
                         _intvalue.lastAction = 'updated';
+                        $storage.lastStatusUpdate = new Date( $filter('date')(new Date(), 'yyyy-MM-dd HH:mm'));
+                        $storage.statuslist.forEach(function(entry,index) {
+                            if (entry.soapid ===  _intvalue.soapid) {
+                                $storage.statuslist[index] = _intvalue;
+                            };
+                        });
                         deferred.resolve(_intvalue);
                     });
 

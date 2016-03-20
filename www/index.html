@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -12,6 +13,7 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+    <script src="lib/jquery/jquery.min.js"></script>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngStorage/ngStorage.min.js"></script>
@@ -22,6 +24,7 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/directive_sortable.js"></script>
     <script src="js/services_soap.js"></script>
     <script src="js/services_queue.js"></script>
     <script src="js/controllers_comfort.js"></script>

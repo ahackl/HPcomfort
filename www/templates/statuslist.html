@@ -7,14 +7,19 @@
                 spinner="none"
                 on-refresh="doRefresh()">
         </ion-refresher>
-        <ion-list option-buttons="itemButtons" can-swipe="true" delegate-handle="status-list">
-            <ion-item ng-repeat="item in $storage.statuslist track by $index" item="item">
-                    <div class="row">
-                        <div class="col col-75">{{ item.description }}</div>
-                        <div ng-if="item.lastAction === 'new'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
-                        <div ng-if="item.lastAction === 'change'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
-                        <div ng-if="item.lastAction === 'read'" class="col" style="color:#ff0000">{{ item.lastValue }}</div>
-                        <div ng-if="item.lastAction === 'updated'" class="col" style="color:#000000">{{ item.lastValue }}</div>
+        <ion-list option-buttons="itemButtons" can-swipe="true" delegate-handle="status-list"
+                  sortable draggable=".card" sorted="onReorder($fromIndex, $toIndex)">
+            <ion-item ng-repeat="item in $storage.statuslist track by $index" item="item" class="item-light card item-complex">
+                    <div class="item-content no-padding">
+                        <div class="row">
+                            <div class="col col-75">{{ item.description }}</div>
+                            <div ng-if="item.lastAction != 'updated'" class="col" style="color:#ff0000">
+                                <div class="text-right">{{ item.lastValue }}</div>
+                            </div>
+                            <div ng-if="item.lastAction === 'updated'" class="col" style="color:#000000">
+                                <div class="text-right">{{ item.lastValue }}</div>
+                            </div>
+                        </div>
                     </div>
                 <ion-option-button class="button-assertive" ng-click="onItemDelete(item)">
                     delete
@@ -24,5 +29,6 @@
                 </ion-option-button>
            </ion-item>
         </ion-list>
+        <div class="text-center">Last update: {{ $storage.lastStatusUpdate| date : 'yyyy-MM-dd HH:mm' }}</div>
     </ion-content>
 </ion-view>

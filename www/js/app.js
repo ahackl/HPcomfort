@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers_comfort.js
-angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'ionic-toast', 'ngStorage'])
+angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'starter.directive', 'ionic-toast', 'ngStorage'])
 
 .run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
@@ -31,6 +31,7 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
                         {name:'status', state:'/app/statuslist'},
                         {name:'help', state:'/app/help'},
                         {name:'settings', state:'/app/settings'}],
+      lastStatusUpdate: null,
       statuslist: []
     });
 
@@ -106,6 +107,7 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
 
 });
 
+var _directive = angular.module('starter.directive', []);
 
 var _service = angular.module('starter.services', []);
 

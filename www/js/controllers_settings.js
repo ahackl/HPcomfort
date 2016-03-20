@@ -6,7 +6,7 @@ _control.controller('SettingsCtrl',['$scope','$localStorage',
 
         $scope.$storage = $localStorage;
 
-        $scope.appVersion = '1.2.1';
+        $scope.appVersion = '1.3.0';
 
 
     }]);
