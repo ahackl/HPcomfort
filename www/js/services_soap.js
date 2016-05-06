@@ -1,8 +1,8 @@
 /**
  * Created by alexander on 07.02.16.
  */
-_service.factory('soapHP', ['$http',
-    function ($http) {
+_service.factory('soapHP', ['$http','$cordovaNetwork',
+    function ($http, $cordovaNetwork) {
         'use strict';
 
 
@@ -38,6 +38,17 @@ _service.factory('soapHP', ['$http',
 
         function sendSOAP($storage, $oid) {
 
+            var server = $storage.server;
+            try {
+                if ($cordovaNetwork.getNetwork() == 'wifi') {
+                    server = $storage.server_wifi;
+                }
+            }
+            catch(err) {
+                server = $storage.server;
+            }
+
+
             var authdata = btoa($storage.username + ':' + $storage.password);
 
             var payload = '';
@@ -62,7 +73,7 @@ _service.factory('soapHP', ['$http',
 
             var req = {
                 method: 'POST',
-                url: 'http://'+ $storage.server +'/ws',
+                url: 'http://'+ server +'/ws',
                 headers: {
                     'Content-Type': 'text/xml',
                     'Authorization': 'Basic ' + authdata
@@ -74,6 +85,17 @@ _service.factory('soapHP', ['$http',
         }
 
         function sendSOAPwithValue($storage, $oid, $value){
+
+            var server = $storage.server;
+            try {
+                if ($cordovaNetwork.getNetwork() == 'wifi') {
+                    server = $storage.server_wifi;
+                }
+            }
+            catch(err) {
+                server = $storage.server;
+            }
+
 
             var authenticationData = btoa($storage.username + ':' + $storage.password);
 

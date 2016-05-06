@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers_comfort.js
-angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'starter.directive', 'ionic-toast', 'ngStorage'])
+angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'starter.directive', 'ionic-toast', 'ngStorage', 'ngCordova'])
 
 .run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
@@ -25,6 +25,7 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       username: 'username',
       password: 'password',
       server: 'server',
+      server_wifi: 'server_wifi',
       oidComfort: '/1/2/4/3/58/0',
       startState: {name:'settings', state:'/app/settings'},
       allowedStates : [ {name:'comfort', state:'/app/comfortlist'},

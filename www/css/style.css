@@ -50,3 +50,12 @@
 .no-padding {
     padding: 0px !important;
 }
+.red {
+    color: red;
+}
+.black {
+    color: black;
+}
+.green {
+    color: green;
+}
