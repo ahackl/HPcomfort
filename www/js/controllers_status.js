@@ -2,9 +2,19 @@
  * Created by alexander on 31.01.16.
  */
 _control.controller('StatusCtrl',['$scope','$http','soapHP',
-    '$localStorage','$rootScope','$ionicModal','queueHP','$ionicListDelegate',
+    '$localStorage','$rootScope','$ionicModal','queueHP','$ionicListDelegate','networkHP',
     function($scope, $http, soapHP, $localStorage, $rootScope,
-             $ionicModal, queueHP, $ionicListDelegate) {
+             $ionicModal, queueHP, $ionicListDelegate,networkHP) {
+
+        // reload data if the view is resumed from background
+        document.addEventListener("resume", function () {
+            networkHP.start();
+        }, false);
+
+        // reload data if the view is resumed from background
+        document.addEventListener("pause", function () {
+            networkHP.stop();
+        }, false);
 
 
         $scope.$storage = $localStorage;

@@ -1,12 +1,18 @@
 _control.controller('ComfortCtrl',
-    ['$scope', 'soapHP', '$localStorage', '$rootScope',
-        function ($scope, soapHP, $localStorage, $rootScope) {
+    ['$scope', 'soapHP', '$localStorage', '$rootScope','networkHP',
+        function ($scope, soapHP, $localStorage, $rootScope,networkHP) {
 
             $scope.$storage = $localStorage;
 
             // reload data if the view is resumed from background
             document.addEventListener("resume", function () {
+                networkHP.start();
                 getTempValue();
+            }, false);
+
+            // reload data if the view is resumed from background
+            document.addEventListener("pause", function () {
+                networkHP.stop();
             }, false);
 
             // reload data if the view is resumed from another state

@@ -1,8 +1,8 @@
 /**
  * Created by alexander on 07.02.16.
  */
-_service.factory('soapHP', ['$http','$cordovaNetwork',
-    function ($http, $cordovaNetwork) {
+_service.factory('soapHP', ['$http','networkHP',
+    function ($http,networkHP) {
         'use strict';
 
 
@@ -38,16 +38,7 @@ _service.factory('soapHP', ['$http','$cordovaNetwork',
 
         function sendSOAP($storage, $oid) {
 
-            var server = $storage.server;
-            try {
-                if ($cordovaNetwork.getNetwork() == 'wifi') {
-                    server = $storage.server_wifi;
-                }
-            }
-            catch(err) {
-                server = $storage.server;
-            }
-
+            var server = getServer($storage);
 
             var authdata = btoa($storage.username + ':' + $storage.password);
 
@@ -86,16 +77,7 @@ _service.factory('soapHP', ['$http','$cordovaNetwork',
 
         function sendSOAPwithValue($storage, $oid, $value){
 
-            var server = $storage.server;
-            try {
-                if ($cordovaNetwork.getNetwork() == 'wifi') {
-                    server = $storage.server_wifi;
-                }
-            }
-            catch(err) {
-                server = $storage.server;
-            }
-
+            var server = getServer($storage);
 
             var authenticationData = btoa($storage.username + ':' + $storage.password);
 
@@ -128,7 +110,7 @@ _service.factory('soapHP', ['$http','$cordovaNetwork',
 
             var req = {
                 method: 'POST',
-                url: 'http://'+ $storage.server +'/ws',
+                url: 'http://'+ server +'/ws',
                 headers: {
                     'Content-Type': 'text/xml',
                     'Authorization': 'Basic ' + authenticationData
@@ -148,6 +130,18 @@ _service.factory('soapHP', ['$http','$cordovaNetwork',
                 return '--';
             }
         }
+
+        function getServer($storage) {
+            var server = $storage.server;
+              if (networkHP.useInternalServer()) {
+                    server = $storage.server_wifi;
+                } else {
+                    server = $storage.server;
+                }
+            return server;
+        }
+
+
 
         return service;
     }]);

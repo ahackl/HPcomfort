@@ -11,13 +11,19 @@
           <input type="text" ng-model="$storage.password">
         </label>
         <label class="item item-input">
-          <span  ng-class="{green: networkState != 'wifi'}" class="input-label">Server default</span>
+          <span  ng-class="{green: useInternalServer == false}" class="input-label">Server extern</span>
           <input type="text" ng-model="$storage.server">
         </label>
         <label class="item item-input">
-          <span ng-class="{green: networkState == 'wifi'}" class="input-label">Server wifi</span>
+          <span ng-class="{green: useInternalServer == true}" class="input-label">Server intern</span>
           <input type="text" ng-model="$storage.server_wifi">
         </label>
+        <label class="item item-input">
+          <span ng-class="{green: useInternalServer == true}" class="input-label">SSID intern</span>
+          <input type="text" ng-model="$storage.wifi_ssid">
+        </label>
+
+
         <label class="item item-input">
           <span class="input-label">OID for Comfort</span>
           <input type="text" ng-model="$storage.oidComfort">
@@ -43,6 +49,8 @@
     Das Kennwort wird unverschlüsselt gespeichert.
     <br/>
     Network state: {{networkState}}
+    <br />
+    Wifi SSID: {{wifiSSID}}
 
   </ion-content>
 </ion-view>

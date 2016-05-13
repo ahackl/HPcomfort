@@ -26,6 +26,7 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       password: 'password',
       server: 'server',
       server_wifi: 'server_wifi',
+      wifi_ssid: 'wifi_ssid',
       oidComfort: '/1/2/4/3/58/0',
       startState: {name:'settings', state:'/app/settings'},
       allowedStates : [ {name:'comfort', state:'/app/comfortlist'},
