@@ -9,7 +9,7 @@ _control.controller('SettingsCtrl',['$scope','$localStorage','$rootScope','$inte
 
         $scope.$storage = $localStorage;
 
-        $scope.appVersion = '1.4.1';
+        $scope.appVersion = '1.4.2';
 
 
         $scope.networkState = 'unknown';

@@ -8,6 +8,7 @@ _service.factory('networkHP',['$q','$interval','$cordovaNetwork','$localStorage'
         var timerInterval = 2000;
 
 
+        checkConnection();
         checkConnectionInterval = $interval(checkConnection, timerInterval);
 
         var service = {

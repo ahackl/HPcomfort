@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers_comfort.js
 angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'starter.directive', 'ionic-toast', 'ngStorage', 'ngCordova'])
 
-.run(function($ionicPlatform, $localStorage) {
+.run(function($ionicPlatform, $localStorage, networkHP) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -37,6 +37,8 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       statuslist: []
     });
 
+    var useInternalServer = networkHP.useInternalServer();
+    
   });
 
 })
