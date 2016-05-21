@@ -1,19 +1,22 @@
 _control.controller('ComfortCtrl',
-    ['$scope', 'soapHP', '$localStorage', '$rootScope','networkHP',
-        function ($scope, soapHP, $localStorage, $rootScope,networkHP) {
+    ['$scope', 'soapHP', '$localStorage', '$rootScope', 'networkHP',
+        function ($scope, soapHP, $localStorage, $rootScope, networkHP) {
 
             $scope.$storage = $localStorage;
 
+            $scope.$watch('$storage.lastConnectedServerlastConnectedServer', function() {
+                getTempValue();
+            });
+
+            $scope.valueChanged = function(){
+                $scope.update = $scope.model.myNumber;
+            }
+
             // reload data if the view is resumed from background
             document.addEventListener("resume", function () {
-                networkHP.start();
                 getTempValue();
             }, false);
 
-            // reload data if the view is resumed from background
-            document.addEventListener("pause", function () {
-                networkHP.stop();
-            }, false);
 
             // reload data if the view is resumed from another state
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
@@ -24,7 +27,6 @@ _control.controller('ComfortCtrl',
 
             // reload data if the scroll down function is used
             $scope.doRefresh = function () {
-                cosole.log('test');
                 getTempValue();
                 $scope.$broadcast('scroll.refreshComplete');
             };
@@ -61,6 +63,8 @@ _control.controller('ComfortCtrl',
 
             // read the temperature value
             function getTempValue() {
+
+                networkHP.checkConnection();
 
                 var promise = soapHP.sendSOAP($scope.$storage, $scope.$storage.oidComfort);
                 promise.then(

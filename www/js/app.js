@@ -27,18 +27,22 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       server: 'server',
       server_wifi: 'server_wifi',
       wifi_ssid: 'wifi_ssid',
+      lastConnectedServer: 'intern',
+      serverStates: {name:'intern', state:'useIntern'},
       oidComfort: '/1/2/4/3/58/0',
       startState: {name:'settings', state:'/app/settings'},
       allowedStates : [ {name:'comfort', state:'/app/comfortlist'},
                         {name:'status', state:'/app/statuslist'},
                         {name:'help', state:'/app/help'},
                         {name:'settings', state:'/app/settings'}],
+      allowedServerStates: [ {name:'intern', state:'useIntern'},
+                            {name:'extern', state:'useExtern'},
+                            {name:'automatic', state:'useAutomatic'} ],
       lastStatusUpdate: null,
       statuslist: []
     });
 
-    var useInternalServer = networkHP.useInternalServer();
-    
+
   });
 
 })

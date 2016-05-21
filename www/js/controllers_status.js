@@ -6,20 +6,14 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
     function($scope, $http, soapHP, $localStorage, $rootScope,
              $ionicModal, queueHP, $ionicListDelegate,networkHP) {
 
-        // reload data if the view is resumed from background
-        document.addEventListener("resume", function () {
-            networkHP.start();
-        }, false);
-
-        // reload data if the view is resumed from background
-        document.addEventListener("pause", function () {
-            networkHP.stop();
-        }, false);
-
-
         $scope.$storage = $localStorage;
 
         resetLastAction();
+
+        $scope.$watch('$storage.lastConnectedServer', function() {
+            resetLastAction();
+        });
+
 
         $scope.dialogData = { "description" : "", "soapid" : "" , "lastValue": "--", "lastUpdate": "", "lastAction" : "new"};
 
@@ -111,6 +105,9 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
 
 
         function resetLastAction() {
+
+            networkHP.checkConnection();
+
             $scope.$storage.statuslist.forEach(function(entry, index) {
                 queueHP.asyncTask(entry);
             });

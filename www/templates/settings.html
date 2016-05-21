@@ -1,56 +1,76 @@
 <ion-view view-title="Settings">
   <ion-content>
+    <ion-refresher
+            spinner="none"
+            on-refresh="doRefresh()">
+    </ion-refresher>
     <form ng-submit="saveSettings()">
       <div class="list">
+
+        <div class="item item-divider">
+          Connection
+        </div>
+        <label class="item item-input">
+          <span  ng-class="{green: $storage.lastConnectedServer === 'extern'}" class="input-label">Name/IP extern</span>
+          <input type="text" ng-model="$storage.server">
+        </label>
+        <label class="item item-input">
+          <span ng-class="{green: $storage.lastConnectedServer === 'intern'}" class="input-label">Name/IP intern</span>
+          <input type="text" ng-model="$storage.server_wifi">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">SSID intern</span>
+          <input type="text" ng-model="$storage.wifi_ssid">
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Active connection
+          </div>
+          <select ng-model="$storage.serverStates" ng-options="onePage.name for onePage in $storage.allowedServerStates track by onePage.state"></select>
+        </label>
+
+
+        <div class="item item-divider">
+          Login details
+          <br/>
+          (Das Kennwort wird unverschlüsselt gespeichert.)
+        </div>
         <label class="item item-input">
           <span class="input-label">Username</span>
           <input type="text" ng-model="$storage.username">
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="text" ng-model="$storage.password">
-        </label>
-        <label class="item item-input">
-          <span  ng-class="{green: useInternalServer == false}" class="input-label">Server extern</span>
-          <input type="text" ng-model="$storage.server">
-        </label>
-        <label class="item item-input">
-          <span ng-class="{green: useInternalServer == true}" class="input-label">Server intern</span>
-          <input type="text" ng-model="$storage.server_wifi">
-        </label>
-        <label class="item item-input">
-          <span ng-class="{green: useInternalServer == true}" class="input-label">SSID intern</span>
-          <input type="text" ng-model="$storage.wifi_ssid">
+          <input type="password" ng-model="$storage.password">
         </label>
 
-
+        <div class="item item-divider">
+          Preference
+        </div>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Startpage
+          </div>
+          <select ng-model="$storage.startState" ng-options="onePage.name for onePage in $storage.allowedStates track by onePage.state"></select>
+        </label>
         <label class="item item-input">
           <span class="input-label">OID for Comfort</span>
           <input type="text" ng-model="$storage.oidComfort">
         </label>
 
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Startpage
+        <div class="item item-divider">
+          Information
         </div>
-        <select ng-model="$storage.startState" ng-options="onePage.name for onePage in $storage.allowedStates track by onePage.state"></select>
-      </label>
-<!--
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Save settings</button>
+        <label class="item item-input">
+          <span class="input-label"> Version</span>
+          <span class="input-label">{{appVersion}}</span>
         </label>
--->
+
+
       </div>
 
+
     </form>
-    <br/>
-      Version: {{appVersion}}
-    <br/>
-    Das Kennwort wird unverschlüsselt gespeichert.
-    <br/>
-    Network state: {{networkState}}
-    <br />
-    Wifi SSID: {{wifiSSID}}
 
   </ion-content>
 </ion-view>

@@ -1,8 +1,8 @@
 /**
  * Created by alexander on 07.02.16.
  */
-_service.factory('soapHP', ['$http','networkHP',
-    function ($http,networkHP) {
+_service.factory('soapHP', ['$http',
+    function ($http) {
         'use strict';
 
 
@@ -132,8 +132,10 @@ _service.factory('soapHP', ['$http','networkHP',
         }
 
         function getServer($storage) {
+            // console.log('lastConnectedServer: ' + $storage.lastConnectedServer);
+            // console.log('serverStates: ' + $storage.serverStates.name);
             var server = $storage.server;
-              if (networkHP.useInternalServer()) {
+              if ($storage.lastConnectedServer === 'intern' ) {
                     server = $storage.server_wifi;
                 } else {
                     server = $storage.server;

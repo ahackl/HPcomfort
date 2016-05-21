@@ -1,22 +1,19 @@
-_service.factory('networkHP',['$q','$interval','$cordovaNetwork','$localStorage',
-    function($q, $interval,$cordovaNetwork,$localStorage){
+_service.factory('networkHP',['$q','$cordovaNetwork','$localStorage',
+    function($q, $cordovaNetwork, $localStorage){
         'use strict';
 
         var networkState = 'unknown';
         var wifiSSID = '';
         var checkConnectionInterval = undefined;
-        var timerInterval = 2000;
-
 
         checkConnection();
-        checkConnectionInterval = $interval(checkConnection, timerInterval);
 
         var service = {
             getSSID: getSSID,
-            useInternalServer: useInternalServer,
             getNetworkState: getNetworkState,
             stop: stop,
-            start: start
+            start: start,
+            checkConnection: checkConnection
         };
 
         function getSSID() {
@@ -40,21 +37,24 @@ _service.factory('networkHP',['$q','$interval','$cordovaNetwork','$localStorage'
             }
         }
 
-        function useInternalServer() {
-            if (networkState == 'wifi' && wifiSSID == $localStorage.wifi_ssid) {
-                return(true);
-            } else {
-                return(false);
-            }
-        }
-
-        function checkConnection() {
+       function checkConnection() {
             try {
                 networkState = $cordovaNetwork.getNetwork();
                 if (networkState == 'wifi') {
                     WifiWizard.getCurrentSSID(
                         function(s) {
                             wifiSSID= s.replace(/"/g, '');
+                            if ($localStorage.serverStates.state === 'useAutomatic') {
+                                if (networkState == 'wifi' && wifiSSID == $localStorage.wifi_ssid) {
+                                    $localStorage.lastConnectedServer = 'intern';
+                                } else {
+                                    $localStorage.lastConnectedServer = 'extern';
+                                }
+                            }else if($localStorage.serverStates.state === 'useIntern') {
+                                $localStorage.lastConnectedServer = 'intern';
+                            }else if ($localStorage.serverStates.state === 'useExtern') {
+                                $localStorage.lastConnectedServer = 'extern';
+                            }
                         }, function(e){
                             wifiSSID = '';
                         });
@@ -67,6 +67,7 @@ _service.factory('networkHP',['$q','$interval','$cordovaNetwork','$localStorage'
                 wifiSSID = '';
             }
         }
+
 
         return service;
 
