@@ -124,7 +124,8 @@ _service.factory('soapHP', ['$http',
             try {
                 // console.log(JSON.stringify(answer.data));
                 var Xdom = parseXml(answer.data);
-                return Xdom.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+                var returnValue = Xdom.getElementsByTagName('value')[0].childNodes[0].nodeValue;
+                return returnValue;
             }
             catch (e) {
                 return '--';

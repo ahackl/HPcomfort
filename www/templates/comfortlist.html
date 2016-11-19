@@ -1,20 +1,36 @@
 <ion-view view-title="Comfort">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon ion-plus" ng-click="openDialogNew()"></button>
+  </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-refresher
             spinner="none"
             on-refresh="doRefresh()">
     </ion-refresher>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col col-50">
-        <button class="button button-block button-small"
-                ng-repeat="n in ngButtonText track by $index"
-                data-ng-class="ngButtonMarked[$index]? 'button-calm': 'button-stable'"
-                ng-click="ngButtonClick($index)">
-          {{n}}
-        </button>
-      </div>
-      <div class="col"></div>
-    </div>
+    <ion-list option-buttons="itemButtons" can-swipe="true" delegate-handle="comfort-list"
+              sortable draggable=".card2" sorted="onReorder($fromIndex, $toIndex)">
+      <ion-item href="#/app/comfortlist_details/{{$index}}" ng-repeat="item in $storage.comfortlist track by $index" item="item" class="item-light card card2 item-complex">
+        <div class="item-content no-padding" >
+          <div class="row">
+            <div class="col col-75">{{ item.description }}</div>
+            <div ng-if="item.lastAction != 'updated'" class="col" style="color:#ff0000">
+              <div class="text-right">{{ item.lastValue }}</div>
+            </div>
+            <div ng-if="item.lastAction === 'updated'" class="col" style="color:#000000">
+              <div class="text-right">{{ item.lastValue }}</div>
+            </div>
+          </div>
+        </div>
+        <ion-option-button class="button-assertive" ng-click="onItemDelete(item)">
+          delete
+        </ion-option-button>
+        <ion-option-button class="button-calm" ng-click="onItemEdit(item)">
+          edit
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+    <div ng-if="$storage.comfortlist.length > 0" class="text-center">Last update: {{ $storage.lastComfortUpdate }}</div>
   </ion-content>
 </ion-view>
+
+

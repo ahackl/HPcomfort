@@ -1,4 +1,5 @@
-﻿_directive.directive('sortable', ['$ionicGesture', '$ionicScrollDelegate', function ($ionicGesture, $ionicScrollDelegate) {
+﻿// http://blog.scottlogic.com/2014/11/25/ionic-sorter.html
+_directive.directive('sortable', ['$ionicGesture', '$ionicScrollDelegate', function ($ionicGesture, $ionicScrollDelegate) {
     return {
         restrict: 'A',
         scope: {

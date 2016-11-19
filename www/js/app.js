@@ -4,9 +4,16 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers_comfort.js
-angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', 'starter.directive', 'ionic-toast', 'ngStorage', 'ngCordova'])
+angular.module('starter', [ 'ionic' ,
+                            'starter.controllers',
+                            'starter.services',
+                            'starter.directive',
+                            'ionic-toast',
+                            'ngStorage',
+                            'ngCordova',
+                            'angularMoment'])
 
-.run(function($ionicPlatform, $localStorage, networkHP) {
+.run(function($ionicPlatform, $localStorage,amMoment) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -38,10 +45,14 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       allowedServerStates: [ {name:'intern', state:'useIntern'},
                             {name:'extern', state:'useExtern'},
                             {name:'automatic', state:'useAutomatic'} ],
+      allowedGUIs: [{name:'List of buttons', state:'useButtonList'}],
       lastStatusUpdate: null,
-      statuslist: []
+      statuslist: [],
+      lastComfortUpdate: null,
+      comfortlist: []
     });
 
+    amMoment.changeLocale('de');
 
   });
 
@@ -84,7 +95,16 @@ angular.module('starter', ['ionic' ,'starter.controllers', 'starter.services', '
       }
     }
   })
-  .state('app.statuslist', {
+  .state('app.comfortlist_details', {
+    url: '/comfortlist_details/:Cindex',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/comfortlist_details.html',
+        controller: 'ComfortDetailCtrl'
+      }
+    }
+  })
+.state('app.statuslist', {
     url: '/statuslist',
       views: {
         'menuContent': {

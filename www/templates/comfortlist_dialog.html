@@ -1,0 +1,42 @@
+<span class="modal">
+    <div class="bar bar-header bar-stable">
+        <ion-button class="button icon-left ion-close-round button-clear" ng-click="closeModalCancel()"></ion-button>
+        <h1 class="title">Add item</h1>
+        <ion-button class="button icon-right ion-checkmark-round button-clear" ng-click="closeModalSave()"></ion-button>
+    </div>
+    <ion-content class="has-header">
+        <ion-list>
+            <li class="item item-input item-stacked-label">
+                <span class="input-label positive text-bold">Description</span>
+                <input type="text" placeholder="" name="description" ng-model="dialogData.description" required />
+            </li>
+            <li class="item item-input item-stacked-label">
+                <span class="input-label positive text-bold">SOAP ID</span>
+                <input type="text" placeholder="" name="soapid" ng-model="dialogData.soapid" required />
+            </li>
+            <li class="item item-input item-stacked-label">
+                <span class="input-label positive text-bold">Minimal value</span>
+                <input type="number" placeholder="" name="minValue" ng-model="dialogData.minValue" required />
+            </li>
+            <li class="item item-input item-stacked-label">
+                <span class="input-label positive text-bold">Maximal value</span>
+                <input type="number" placeholder="" name="maxValue" ng-model="dialogData.maxValue" required />
+            </li>
+            <li class="item item-input item-stacked-label">
+                <span class="input-label positive text-bold">Step size</span>
+                <input type="number" placeholder="" name="stepSize" ng-model="dialogData.stepSize" required />
+            </li>
+            <li class="item item-input item-select">
+                <span class="input-label positive text-bold"">
+                    User interface
+                </span>
+                <select ng-model="dialogData.userInterface" ng-options="onePage.name for onePage in $storage.allowedGUIs track by onePage.state"></select>
+            </li>
+        </ion-list>
+<br/>
+Haftungsbeschränkung <br/>
+Das Programm wurden mit größtmöglicher Sorgfalt und nach bestem Gewissen erstellt.<br/>
+Dennoch übernimmt der Anbieter keine Haftung für Schäden an der Wärmepumpe.
+
+    </ion-content>
+</div>

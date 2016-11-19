@@ -2,9 +2,9 @@
  * Created by alexander on 31.01.16.
  */
 _control.controller('StatusCtrl',['$scope','$http','soapHP',
-    '$localStorage','$rootScope','$ionicModal','queueHP','$ionicListDelegate','networkHP',
+    '$localStorage','$rootScope','$ionicModal','queueHPs','$ionicListDelegate','networkHP',
     function($scope, $http, soapHP, $localStorage, $rootScope,
-             $ionicModal, queueHP, $ionicListDelegate,networkHP) {
+             $ionicModal, queueHPs, $ionicListDelegate,networkHP) {
 
         $scope.$storage = $localStorage;
 
@@ -64,7 +64,7 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
 
             $ionicListDelegate.$getByHandle('status-list').closeOptionButtons();
             $scope.modal.hide();
-            queueHP.asyncTask(newItem);
+            queueHPs.asyncTask(newItem);
         };
 
         $scope.closeModalCancel = function () {
@@ -109,7 +109,7 @@ _control.controller('StatusCtrl',['$scope','$http','soapHP',
             networkHP.checkConnection();
 
             $scope.$storage.statuslist.forEach(function(entry, index) {
-                queueHP.asyncTask(entry);
+                queueHPs.asyncTask(entry);
             });
         }
 
