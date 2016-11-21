@@ -6,7 +6,7 @@ _control.controller('SettingsCtrl',['$scope','$localStorage','$rootScope','netwo
 
         $scope.$storage = $localStorage;
 
-        $scope.appVersion = '1.5.1';
+        $scope.appVersion = '1.5.2';
 
         $scope.doRefresh = function() {
             networkHP.checkConnection();

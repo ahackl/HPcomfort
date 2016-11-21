@@ -1,7 +1,8 @@
 <div class="modal">
     <div class="bar bar-header bar-stable">
         <ion-button class="button icon-left ion-close-round button-clear" ng-click="closeModalCancel()"></ion-button>
-        <h1 class="title">Add item</h1>
+        <h1 ng-if="dialogData.lastAction == 'new'" class="title">Add item</h1>
+        <h1 ng-if="dialogData.lastAction == 'change'" class="title">Edit item</h1>
         <ion-button class="button icon-right ion-checkmark-round button-clear" ng-click="closeModalSave()"></ion-button>
     </div>
     <ion-content class="has-header">
