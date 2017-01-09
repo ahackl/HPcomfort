@@ -94,7 +94,11 @@ Install the [ionic] framework and copy the files to the "www" directory
 
 or
 
-Install the [android] version.
+Install the [android] version
+
+or
+
+Install the [ios] version.
 
 
 
@@ -104,4 +108,5 @@ Install the [android] version.
 [pouchdb]: http://pouchdb.com
 [ochsner]: http://www.ochsner.com
 [android]: https://play.google.com/store/apps/details?id=com.hackl.HPcomfort
+[ios]: https://itunes.apple.com/de/app/hpcomfort/id1175522424?mt=8
 
