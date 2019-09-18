@@ -3,6 +3,10 @@ Ionic app to control the comfort state of an [ochsner] heat pump
 
 Dieses Programm nutzt die SOAP Schnittstelle des web2com Interfaces um die Behaglichkeit einzustellen
 
+ACHTUNG:
+Known high severity security vulnerability detected in bower < 1.8.8 defined in package.json. package.json update suggested: bower ~> 1.8.8.
+
+
 # Liste der ID's
 
 Die ID wird aus fünf Zahlen gebildet die mit "/" getrennt sind.
